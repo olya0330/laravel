@@ -14,6 +14,9 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->decimal('price', 5, 2);
+            $table->text('description');
             $table->timestamps();
         });
     }
