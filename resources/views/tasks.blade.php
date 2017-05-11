@@ -8,70 +8,56 @@
     @include('common.errors')
 
     <!-- Форма новой задачи -->
-    <form action="{{ url('task') }}" method="POST" class="form-horizontal">
-      {{ csrf_field() }}
 
-      <!-- Имя задачи -->
-      <div class="form-group">
-        <label for="task" class="col-sm-3 control-label">Товар</label>
-
-        <div class="col-sm-6">
-          <input type="text" name="name" id="task-name" class="form-control">
-        </div>
-      </div>
-
-      <!-- Кнопка добавления задачи -->
-      <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-6">
-          <button type="submit" class="btn btn-default">
-            <i class="fa fa-plus"></i> Добавить товар
-          </button>
-        </div>
-      </div>
-    </form>
+<form action="{{ url('task') }}" method="POST" role="form">
+    {{ csrf_field() }}
+    <div class="form-group">
+        <label for="name">Название товара</label>
+        <input type="text" class="form-control" name="name" id="name" >
+    </div>
+    <div class="form-group">
+        <label for="price">Цена</label>
+        <input type="price" class="form-control" name="price" id="price">
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" name="description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Добавить товар</button>
+</form>
   </div>
 
   <!-- TODO: Текущие задачи -->
   <!-- Текущие задачи -->
+  
+  
   @if (count($tasks) > 0)
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        Магазин
-      </div>
-
-      <div class="panel-body">
-        <table class="table table-striped task-table">
-
-          <!-- Заголовок таблицы -->
-          <thead>
-            <th>Все товары</th>
-            <th>&nbsp;</th>
-          </thead>
-
-          <!-- Тело таблицы -->
-          <tbody>
-            @foreach ($tasks as $task)
-              <tr>
-                <!-- Имя задачи -->
-                <td class="table-text">
-                  <div>{{ $task->name }}</div>
-                </td>
-
-                <td>
-                    <form action="{{ url('task/'.$task->id) }}" method="POST">
+  <table class="table">
+      <tr>
+          <th>Название товара</th>
+          <th>Цена</th>
+          <th class="col-md-1 col-sm-1">Удаление</th>
+      </tr>
+      @foreach ($tasks as $task)
+      <tr>
+          <td>
+              {{ $task->name }}
+              <span title="{{ $task->description }}"></span>
+          </td>
+          <td>{{ $task->price }}</td>
+          <td>
+              <form action="{{ url('task/'.$task->id) }}" method="POST">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
                         <button type="submit" class="btn btn-danger">
-                            <i class="fa fa-trash"></i> Удалить
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Удалить
                         </button>
-                    </form>
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
-   @endif
+               </form>
+          </td>
+      </tr>
+      @endforeach
+  </table>
+@endif
 @endsection

@@ -20,6 +20,8 @@
   Route::post('/task', function (Request $request) {
       $validator = Validator::make($request->all(), [
                 'name' => 'required|max:255',
+                'price' => 'required|max:255',
+                'description' => 'required',
     ]);
 
     if ($validator->fails()) {
@@ -30,6 +32,8 @@
 
     $task = new Task;
     $task->name = $request->name;
+    $task->price = $request->price;
+    $task->description = $request->description;
     $task->save();
 
     return redirect('/');
